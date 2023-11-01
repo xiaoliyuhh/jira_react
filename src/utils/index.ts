@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 
 // 清理对象里值为空的键删掉，但不要把0删掉了
-export const isFalsy = (value: any) => (value === 0 ? false : !value);
+export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 // 在一个函数中改变传入的对象本身是不好的。
 export const cleanObject = (object: object) => {
   const result = { ...object };
@@ -43,7 +43,8 @@ export const useMount = (callback: () => void) => {
 
 // 将value转成debouncedValue，并不能直接转换而是需要定义状态（响应式），必须用到hook，所以不能写成普通函数
 // 而上面的cleanObject不需要使用到任何hook就能转换，所以建议使用函数
-export const useDebounce = (value: any, delay?: number) => {
+export const useDebounce = <V>(value: V, delay?: number) => {
+  // useState就使用的泛型，传入的啥类型，返回啥类型。这里传入V的value，返回V的debouncedValue
   const [debouncedValue, setDebouncedValue] = useState(value);
   // 只在value和delay变化时才执行
   useEffect(() => {
