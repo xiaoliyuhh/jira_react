@@ -10,6 +10,7 @@
     "@types/node": "^16.18.59",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
+    "jira-dev-tool": "^1.7.61",
     "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -22,8 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
-    "json-server": "json-server __json_server_mock__/db.json --watch --port 3001"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
