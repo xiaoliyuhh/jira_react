@@ -1,11 +1,9 @@
 import { List } from "./components/List"
 import { SearchPanel } from "./components/SearchPanel"
 import { useState, useEffect } from "react"
-import * as qs from "qs";
 import { cleanObject, useDebounce, useMount } from "utils"
+import { useHttp } from "utils/http";
 
-
-const apiUrl = process.env.REACT_APP_API_URL
 export const ProjectScreen = () => {
     const [list, setList] = useState([])
     const [param, setParam] = useState({
@@ -14,22 +12,16 @@ export const ProjectScreen = () => {
     })
     const [users, setUsers] = useState([])
     const debouncedParam = useDebounce(param, 2000)
+    const client = useHttp()
     // 初始化list
     useEffect(() => {
         // 如果说name为空，会引起歧义，并不能筛选出来，因为json-server会去找name为空的选项，可以清理对象的空值
-        fetch(`${apiUrl}/projects/?${qs.stringify(cleanObject(debouncedParam))}`).then(async response => {
-            if (response.ok) {
-                setList(await response.json())
-            }
-        })
+        client('projects', { data: cleanObject(debouncedParam) }).then(setList)
     }, [debouncedParam])
     // 初始化users
-    useMount(
-        () => fetch(`${apiUrl}/users`).then(async response => {
-            if (response.ok) {
-                setUsers(await response.json())
-            }
-        })
+    useMount(() =>
+        // 可以不用传...customConfig，所以需设可选在http文件中
+        client('users').then(setUsers)
     )
 
     return <div>

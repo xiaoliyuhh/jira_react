@@ -1,10 +1,10 @@
-import { useState } from "react"
 export interface User {
     id: string,
     name: string,
     email: string,
     title: string,
-    organazition: string
+    organazition: string,
+    token: string
 }
 interface SearchPanelProps {
     users: User[],
