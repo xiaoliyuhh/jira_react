@@ -1,17 +1,8 @@
+import styled from "@emotion/styled";
 import { Form, Input, Button } from "antd"
 import { useAuth } from "context/auth-context"
-import { FormEvent } from "react"
-
 
 export const LoginScreen = () => {
-    // const { login, user } = useAuth()
-
-    // const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault()
-    //     const username = (event.currentTarget.elements[0] as HTMLInputElement).value
-    //     const password = (event.currentTarget.elements[1] as HTMLInputElement).value
-    //     login({ username, password })
-    // }
     const { login, user } = useAuth();
     const handleSubmit = (values: { username: string, password: string }) => {
         login(values);
@@ -26,8 +17,11 @@ export const LoginScreen = () => {
                 <Input placeholder="密码" type="password" id="password" />
             </Form.Item>
             <Form.Item>
-                <Button htmlType="submit" type="primary">登录</Button>
+                <LongButton htmlType="submit" type="primary">登录</LongButton>
             </Form.Item>
         </Form>
     );
 }
+export const LongButton = styled(Button)`
+width:100%
+`
