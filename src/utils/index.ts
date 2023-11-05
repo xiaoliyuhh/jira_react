@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 
-
-// 清理对象里值为空的键删掉，但不要把0删掉了
-export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
-// 在一个函数中改变传入的对象本身是不好的。
-export const cleanObject = (object: object) => {
+export const isVoid = (value: unknown) => value === undefined || value === null || value === ''
+// 设置对象类型为键值对而不是object来表示对象类型
+export const cleanObject = (object: { [key: string]: unknown }) => {
+  // 这里的result是空对象，因为这里的object类型不是我们理解的对象类型，它可以表示对象，函数或正则表达式。所以对其解构是没有意义的，返回空对象。
   const result = { ...object };
   Object.keys(object).forEach((key) => {
-    // @ts-ignore
     const value = object[key];
-    if (isFalsy(value)) {
-      // @ts-ignore
+    if (isVoid(value)) {
       delete result[key];
     }
   });
@@ -21,6 +18,7 @@ export const cleanObject = (object: object) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // eslint-disable-line react-hooks/exhaustive-deps
   }, []);
 };
 // debounce专门用来监听快速的事件，无论是鼠标，keyboard，还是改变窗口的事件

@@ -14,7 +14,7 @@
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
     "antd": "^4.24.2",
-    "jira-dev-tool": "^1.7.61",
+    "jira-dev-tool": "^1.6.59",
     "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -49,6 +49,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
     "craco-less": "^3.0.1",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
