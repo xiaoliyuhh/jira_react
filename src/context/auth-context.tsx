@@ -1,11 +1,11 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import { ReactNode } from "react";
 import * as auth from 'auth-provider'
 import { User } from "screens/ProjectList/components/SearchPanel";
 import { http } from "utils/http";
 import { useMount } from "utils";
 import { useAsync } from "utils/use-async";
-import { FullPageLoading } from "components/lib";
+import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 
 interface AuthForm {
     username: string,
@@ -38,11 +38,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const register = (form: AuthForm) => auth.register(form).then(setUser)
     const logout = () => auth.logout().then(() => setUser(null))
     // 加载的时候调用bootstrapUser
-    useMount(() => {
-        run(bootstrapUser()).then(setUser)
-    })
+    useMount(() => run(bootstrapUser()).then(setUser))
     if (isReady || isLoading) {
         return <FullPageLoading></FullPageLoading>
+    }
+    if (isError) {
+        return <FullPageErrorFallback error={error}></FullPageErrorFallback>
     }
     return <AuthContext.Provider children={children} value={{ user, login, register, logout }}></AuthContext.Provider>
 }
