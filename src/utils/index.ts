@@ -13,6 +13,20 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
   });
   return result;
 };
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
+  const oldTitle = document.title
+  useEffect(() => {
+    // 指定依赖，读的新title
+    document.title = title
+  }, [title])
+
+  useEffect(() => () => {
+    if (!keepOnUnmount) {
+      // 不指定依赖，读的旧title
+      document.title = oldTitle
+    }
+  }, [])
+}
 
 // 抽象页面加载时的useEffect,hook要在其他hook或者组件中运行，而不能在普通函数中运行，所以一定要以use开头（hook）
 export const useMount = (callback: () => void) => {
@@ -55,3 +69,5 @@ export const useDebounce = <V>(value: V, delay?: number) => {
   }, [value, delay]);
   return debouncedValue;
 };
+
+

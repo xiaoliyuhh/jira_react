@@ -6,11 +6,14 @@ import styled from "@emotion/styled";
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 import logo from 'assets/logo.svg'
+import { useDocumentTitle } from "utils";
+
 
 export const NonloginApp = () => {
   // 默认是未登录状态
   const [isRegister, setIsRegister] = useState(false)
   const [error, setError] = useState<Error | null>(null);
+  useDocumentTitle('请登录或注册以继续')
   return (
     <Container>
       <Header />

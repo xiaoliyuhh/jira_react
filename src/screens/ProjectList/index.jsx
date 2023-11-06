@@ -2,7 +2,7 @@ import { List } from "./components/List"
 import { SearchPanel } from "./components/SearchPanel"
 import { useState, useEffect } from "react"
 import qs from "qs"
-import { cleanObject, useDebounce, useMount } from "utils"
+import { cleanObject, useDebounce, useMount, useDocumentTitle } from "utils"
 const apiUrl = process.env.REACT_APP_API_URL
 export const ProjectScreen = () => {
     const [list, setList] = useState([])
@@ -12,6 +12,7 @@ export const ProjectScreen = () => {
     })
     const [users, setUsers] = useState([])
     const debouncedParam = useDebounce(param, 2000)
+    useDocumentTitle('项目列表', false)
     // 初始化list
     useEffect(() => {
         // 如果说name为空，会引起歧义，并不能筛选出来，因为json-server会去找name为空的选项，可以清理对象的空值
