@@ -4,6 +4,8 @@ import * as auth from 'auth-provider'
 import { User } from "screens/ProjectList/components/SearchPanel";
 import { http } from "utils/http";
 import { useMount } from "utils";
+import { useAsync } from "utils/use-async";
+import { FullPageLoading } from "components/lib";
 
 interface AuthForm {
     username: string,
@@ -31,14 +33,17 @@ const AuthContext = createContext<{
 AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null)
+    const { data: user, error, isReady, isLoading, isError, run, setData: setUser } = useAsync<User | null>()
     const login = (form: AuthForm) => auth.login(form).then(setUser)
     const register = (form: AuthForm) => auth.register(form).then(setUser)
     const logout = () => auth.logout().then(() => setUser(null))
     // 加载的时候调用bootstrapUser
     useMount(() => {
-        bootstrapUser().then(setUser)
+        run(bootstrapUser()).then(setUser)
     })
+    if (isReady || isLoading) {
+        return <FullPageLoading></FullPageLoading>
+    }
     return <AuthContext.Provider children={children} value={{ user, login, register, logout }}></AuthContext.Provider>
 }
 export const useAuth = () => {

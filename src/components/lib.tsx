@@ -1,9 +1,10 @@
 import styled from '@emotion/styled'
+import { Spin } from 'antd'
 
 export const Row = styled.div<{
-    gap?: number | boolean,
-    butween?: boolean,
-    marginBottom?: number
+  gap?: number | boolean,
+  butween?: boolean,
+  marginBottom?: number
 }>`
   display: flex;
   align-items: center;
@@ -16,3 +17,12 @@ export const Row = styled.div<{
     margin-right: ${props => typeof props.gap === 'number' ? props.gap + 'rem' : props.gap ? '2rem' : undefined};
   }
 `
+const FullPage = styled.div`
+  height: 100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+`
+export const FullPageLoading = () => <FullPage>
+  <Spin size={"large"}></Spin>
+</FullPage>
