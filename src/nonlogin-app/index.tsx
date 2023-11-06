@@ -1,31 +1,33 @@
 import { useState } from "react"
 import { RegisterScreen } from "./register"
 import { LoginScreen } from "./login"
-import { Card, Button, Divider } from 'antd'
+import { Card, Button, Divider, Typography } from 'antd'
 import styled from "@emotion/styled";
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 import logo from 'assets/logo.svg'
 
 export const NonloginApp = () => {
-    // 默认是未登录状态
-    const [isRegister, setIsRegister] = useState(false)
-    return (
-        <Container>
-            <Header />
-            <Background />
-            <ShadowCard>
-                <Title>
-                    {isRegister ? '请注册' : '请登录'}
-                </Title>
-                {isRegister ? <RegisterScreen /> : <LoginScreen />}
-                <Divider />
-                <Button type='link' onClick={() => setIsRegister(!isRegister)}>
-                    {isRegister ? "已有账号？直接登录" : "没有账号？注册新账号"}
-                </Button>
-            </ShadowCard>
-        </Container>
-    );
+  // 默认是未登录状态
+  const [isRegister, setIsRegister] = useState(false)
+  const [error, setError] = useState<Error | null>(null);
+  return (
+    <Container>
+      <Header />
+      <Background />
+      <ShadowCard>
+        <Title>
+          {isRegister ? '请注册' : '请登录'}
+        </Title>
+        {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+        {isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />}
+        <Divider />
+        <Button type='link' onClick={() => { setIsRegister(!isRegister); setError(null) }}>
+          {isRegister ? "已有账号？直接登录" : "没有账号？注册新账号"}
+        </Button>
+      </ShadowCard>
+    </Container>
+  );
 }
 const Container = styled.div`
   display: flex;
