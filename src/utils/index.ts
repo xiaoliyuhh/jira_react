@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const isVoid = (value: unknown) => value === undefined || value === null || value === ''
 // 设置对象类型为键值对而不是object来表示对象类型
@@ -13,21 +13,6 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
   });
   return result;
 };
-export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
-  // useRef返回的对象在组件的整个生命周期内保持不变
-  const oldTitle = useRef(document.title).current
-  useEffect(() => {
-    // 指定依赖，读的新title
-    document.title = title
-  }, [title])
-
-  useEffect(() => () => {
-    if (!keepOnUnmount) {
-      // 不指定依赖，读的旧title
-      document.title = oldTitle
-    }
-  }, [keepOnUnmount, oldTitle])
-}
 
 // 抽象页面加载时的useEffect,hook要在其他hook或者组件中运行，而不能在普通函数中运行，所以一定要以use开头（hook）
 export const useMount = (callback: () => void) => {
@@ -70,5 +55,8 @@ export const useDebounce = <V>(value: V, delay?: number) => {
   }, [value, delay]);
   return debouncedValue;
 };
+
+export const resetRoute = () => window.location.href = window.location.origin
+
 
 
