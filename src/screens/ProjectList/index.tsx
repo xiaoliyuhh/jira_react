@@ -5,10 +5,10 @@ import styled from '@emotion/styled'
 import { Typography } from "antd"
 import { useUsers } from "utils/use-users";
 import { useProjects } from "utils/project";
-import { useUrlQueryParam } from "utils/url"
+import { useProjectsSearchParams } from "./utils"
 
 export const ProjectScreen = () => {
-    const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+    const [param, setParam] = useProjectsSearchParams()
     const { isLoading, error, data: list } = useProjects(useDebounce(param));
     const { data: users } = useUsers();
 
